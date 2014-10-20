@@ -22,8 +22,6 @@ $ php composer.phar require tymon/repository
 ## Usage
 coming soon
 
-```
-
 ## Testing
 
 ``` bash
