@@ -19,7 +19,7 @@ interface Crudable {
 	 * @param  array  $data
 	 * @return Illuminate\Database\Eloquent\Model
 	 */
-	public function create(array $input);
+	public function create(array $data);
 
 	/**
 	 * Update an existing entity
@@ -27,7 +27,7 @@ interface Crudable {
 	 * @param  array  $data
 	 * @return Illuminate\Database\Eloquent\Model
 	 */
-	public function update(array $input);
+	public function update(array $data);
 
 	/**
 	 * Delete an existing entity
