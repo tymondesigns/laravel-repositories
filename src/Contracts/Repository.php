@@ -42,11 +42,4 @@ interface Repository {
 	 */
 	public function getWhereIn($key, array $array, array $with = []);
 
-	/**
-	 * Return the errors
-	 *
-	 * @return Illuminate\Support\MessageBag
-	 */
-	public function errors();
-
 }
