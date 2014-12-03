@@ -1,97 +1,107 @@
-<?php 
+<?php
 
 namespace Tymon\Repositories\Eloquent;
 
 abstract class AbstractRepository {
 
-	/**
-	 * @var Illuminate\Database\Eloquent\Model
-	 */
-	protected $model;
+    /**
+     * @var Illuminate\Database\Eloquent\Model
+     */
+    protected $model;
 
-	/**
-	 * Make a new instance of the entity to query on
-	 *
-	 * @param array  $with
-	 */
-	public function make(array $with = [])
-	{
-		return $this->model->with($with);
-	}
+    /**
+     * @var array
+     */
+    protected $with = [];
 
-	/**
-	 * Retrieve all entities
-	 *
-	 * @param  array  $with
-	 * @return Illuminate\Database\Eloquent\Collection
-	 */
-	public function all(array $with = [])
-	{
-		return $this->make($with)->get();
-	}
+    /**
+     * Set the array of items to eager load
+     *
+     * @param  array  $with
+     * @return self
+     */
+    public function load(array $with)
+    {
+        $this->with = $with;
 
-	/**
-	 * Find a single entity
-	 *
-	 * @param  int    $id
-	 * @param  array  $with
-	 * @return Illuminate\Database\Eloquent\Model
-	 */
-	public function find($id, array $with = [])
-	{
-		return $this->make($with)->find($id);
-	}
+        return $this;
+    }
 
-	/**
-	* Get Results by Page
-	*
-	* @param  int    $page
-	* @param  int    $limit
-	* @param  array  $with
-	* @return \Illuminate\Pagination\Paginator
-	*/
-	public function getByPage($limit = 10, $with = [])
-	{
-		return $this->make($with)->paginate($limit);
-	}
+    /**
+     * Make a new instance of the entity to query on
+     */
+    public function make()
+    {
+        return $this->model->with($this->with);
+    }
 
-	/**
-	 * Search for many results by key and value
-	 *
-	 * @param  string  $key
-	 * @param  mixed   $value
-	 * @param  array   $with
-	 * @return Illuminate\Database\Query\Builders
-	 */
-	public function getManyBy($key, $value, array $with = [])
-	{
-		return $this->make($with)->where($key, $value)->get();
-	}
+    /**
+     * Retrieve all entities
+     *
+     * @return Illuminate\Database\Eloquent\Collection
+     */
+    public function all()
+    {
+        return $this->make()->get();
+    }
 
-	/**
-	 * Search a single result by key and value
-	 *
-	 * @param  string  $key
-	 * @param  mixed   $value
-	 * @param  array   $with
-	 * @return Illuminate\Database\Query\Builders
-	 */
-	public function getFirstBy($key, $value, array $with = [])
-	{
-		return $this->make($with)->where($key, $value)->first();
-	}
+    /**
+     * Find a single entity
+     *
+     * @param  int  $id
+     * @return Illuminate\Database\Eloquent\Model
+     */
+    public function find($id)
+    {
+        return $this->make()->find($id);
+    }
 
-	/**
-	 * Search for many results where key is in array
-	 *
-	 * @param  string  $key
-	 * @param  array   $array
-	 * @param  array   $with
-	 * @return Illuminate\Database\Query\Builders
-	 */
-	public function getWhereIn($key, array $array, array $with = [])
-	{
-		return $this->make($with)->whereIn($key, $array)->get();
-	}
+    /**
+    * Get Results by Page
+    *
+    * @param  int    $page
+    * @param  int    $limit
+    * @return \Illuminate\Pagination\Paginator
+    */
+    public function getByPage($limit = 10)
+    {
+        return $this->make()->paginate($limit);
+    }
+
+    /**
+     * Search for many results by key and value
+     *
+     * @param  string  $key
+     * @param  mixed   $value
+     * @return Illuminate\Database\Query\Builder
+     */
+    public function getManyBy($key, $value)
+    {
+        return $this->make()->where($key, $value)->get();
+    }
+
+    /**
+     * Search a single result by key and value
+     *
+     * @param  string  $key
+     * @param  mixed   $value
+     * @return Illuminate\Database\Query\Builder
+     */
+    public function getFirstBy($key, $value)
+    {
+        return $this->make()->where($key, $value)->first();
+    }
+
+    /**
+     * Search for many results where key is in array
+     *
+     * @param  string  $key
+     * @param  array   $array
+     * @return Illuminate\Database\Query\Builders
+     */
+    public function getWhereIn($key, array $array)
+    {
+        return $this->make()->whereIn($key, $array)->get();
+    }
 
 }
