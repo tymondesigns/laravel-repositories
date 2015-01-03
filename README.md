@@ -3,7 +3,7 @@
 Repository implementation
 
 [![Software License](https://img.shields.io/badge/license-MIT-brightgreen.svg?style=flat-square)](LICENSE.md)
-[![Build Status](https://img.shields.io/travis/tymondesigns/repository/master.svg?style=flat-square)](https://travis-ci.org/tymondesigns/repository)
+[![Build Status](https://img.shields.io/travis/tymondesigns/laravel-repositories/master.svg?style=flat-square)](https://travis-ci.org/tymondesigns/laravel-repositories)
 [![Coverage Status](https://img.shields.io/scrutinizer/coverage/g/tymondesigns/repository.svg?style=flat-square)](https://scrutinizer-ci.com/g/tymondesigns/repository/code-structure)
 [![Quality Score](https://img.shields.io/scrutinizer/g/tymondesigns/repository.svg?style=flat-square)](https://scrutinizer-ci.com/g/tymondesigns/repository)
 

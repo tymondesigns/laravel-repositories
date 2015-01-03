@@ -1,12 +1,13 @@
 {
-    "name": "tymon/repository",
+    "name": "tymon/laravel-repositories",
     "description": "Repositories",
     "keywords": [
+        "laravel",
+        "repositories",
         "tymon",
-        "repository",
-        "package"
+        "database"
     ],
-    "homepage": "https://github.com/tymondesigns/repository",
+    "homepage": "https://github.com/tymondesigns/laravel-repositories",
     "license": "MIT",
     "authors": [
         {
