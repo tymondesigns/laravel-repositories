@@ -24,10 +24,11 @@ interface Crudable {
     /**
      * Update an existing entity
      *
+     * @param  int    $id
      * @param  array  $data
      * @return Illuminate\Database\Eloquent\Model
      */
-    public function update(array $data);
+    public function update($id, array $data);
 
     /**
      * Delete an existing entity

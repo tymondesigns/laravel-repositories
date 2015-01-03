@@ -10,5 +10,5 @@ interface Searchable {
      * @param  mixed  $query
      * @return Illuminate\Database\Eloquent\Collection
      */
-    public function find($query);
+    public function search($query);
 }

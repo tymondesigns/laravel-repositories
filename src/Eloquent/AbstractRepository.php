@@ -2,6 +2,8 @@
 
 namespace Tymon\Repositories\Eloquent;
 
+use Illuminate\Support\Facades\DB;
+
 abstract class AbstractRepository {
 
     /**
@@ -49,11 +51,75 @@ abstract class AbstractRepository {
      * Find a single entity
      *
      * @param  int  $id
-     * @return Illuminate\Database\Eloquent\Model
+     * @return \Illuminate\Database\Eloquent\Model
      */
     public function find($id)
     {
         return $this->make()->find($id);
+    }
+
+    /**
+     * Create a new entity
+     *
+     * @param  array  $data
+     * @return \Illuminate\Database\Eloquent\Model
+     */
+    public function create(array $data)
+    {
+        DB::beginTransaction();
+
+        try {
+            $model = $this->model->create($data);
+            DB::commit();
+        } catch (\Exception $e) {
+            DB::rollBack();
+            throw $e;
+        }
+
+        return $model;
+    }
+
+    /**
+     * Update an existing entity
+     *
+     * @param  int    $id
+     * @param  array  $data
+     * @return \Illuminate\Database\Eloquent\Model
+     */
+    public function update($id, array $data)
+    {
+        DB::beginTransaction();
+
+        try {
+            $model = $this->find($id)->fill($data)->save();
+            DB::commit();
+        } catch (\Exception $e) {
+            DB::rollBack();
+            throw $e;
+        }
+
+        return $model;
+    }
+
+    /**
+     * Delete an existing entity
+     *
+     * @param  int  $id
+     * @return boolean
+     */
+    public function delete($id)
+    {
+        DB::beginTransaction();
+
+        try {
+            $model = $this->find($id)->delete();
+            DB::commit();
+        } catch (\Exception $e) {
+            DB::rollBack();
+            throw $e;
+        }
+
+        return $model;
     }
 
     /**
@@ -102,6 +168,34 @@ abstract class AbstractRepository {
     public function getWhereIn($key, array $array)
     {
         return $this->make()->whereIn($key, $array)->get();
+    }
+
+    /**
+     * Get a new instance
+     *
+     * @param  array  $attributes
+     * @return \Illuminate\Database\Eloquent\Model
+     */
+    public function instance(array $attributes = [])
+    {
+        return $this->model->newInstance($attributes);
+    }
+
+    /**
+     * Magically call the Model instance
+     *
+     * @param  string  $method
+     * @param  array   $parameters
+     * @return mixed
+     * @throws \BadMethodCallException
+     */
+    public function __call($method, $parameters)
+    {
+        if (method_exists($this->model, $method)) {
+            return call_user_func_array([$this->model, $method], $parameters);
+        }
+
+        throw new \BadMethodCallException(sprintf('Method [%s] does not exist.', $method);
     }
 
 }

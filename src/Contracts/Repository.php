@@ -37,4 +37,12 @@ interface Repository {
      * @return Illuminate\Database\Query\Builders
      */
     public function getWhereIn($key, array $array);
+
+    /**
+     * Get a new instance
+     *
+     * @param  array  $attributes
+     * @return \Illuminate\Database\Eloquent\Model
+     */
+    public function instance(array $attributes = []);
 }
