@@ -4,7 +4,7 @@ namespace Tymon\Repositories\Eloquent;
 
 use Illuminate\Support\Facades\DB;
 
-abstract class AbstractRepository {
+abstract class Repository {
 
     /**
      * The model instance
