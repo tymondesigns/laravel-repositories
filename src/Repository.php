@@ -72,17 +72,9 @@ abstract class Repository {
      */
     public function create(array $data)
     {
-        DB::beginTransaction();
-
-        try {
-            $model = $this->model->create($data);
-            DB::commit();
-        } catch (\Exception $e) {
-            DB::rollBack();
-            throw $e;
-        }
-
-        return $model;
+        return $this->attempt(function() {
+            return $this->model->create($data);
+        });
     }
 
     /**
@@ -94,17 +86,9 @@ abstract class Repository {
      */
     public function update($id, array $data)
     {
-        DB::beginTransaction();
-
-        try {
-            $model = $this->find($id)->fill($data)->save();
-            DB::commit();
-        } catch (\Exception $e) {
-            DB::rollBack();
-            throw $e;
-        }
-
-        return $model;
+        return $this->attempt(function() {
+            return $this->find($id)->fill($data)->save();
+        });
     }
 
     /**
@@ -115,17 +99,9 @@ abstract class Repository {
      */
     public function delete($id)
     {
-        DB::beginTransaction();
-
-        try {
-            $model = $this->find($id)->delete();
-            DB::commit();
-        } catch (\Exception $e) {
-            DB::rollBack();
-            throw $e;
-        }
-
-        return $model;
+        return $this->attempt(function() {
+            return $this->find($id)->delete();
+        });
     }
 
     /**
@@ -188,6 +164,27 @@ abstract class Repository {
     public function instance(array $attributes = [])
     {
         return $this->model->newInstance($attributes);
+    }
+    
+    /**
+     * Attempt a DB operation - utilising a transaction
+     * 
+     * @param  Closure  $callback
+     * @return mixed 
+     */
+    public function attempt(\Closure $callback)
+    {
+        DB::beginTransaction();
+
+        try {
+            $value = $callback();
+            DB::commit();
+        } catch (\Exception $e) {
+            DB::rollBack();
+            throw $e;
+        }
+
+        return $value;
     }
 
     /**
