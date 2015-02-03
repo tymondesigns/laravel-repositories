@@ -177,7 +177,7 @@ abstract class Repository {
         DB::beginTransaction();
 
         try {
-            $value = $callback();
+            $value = $callback(DB::getFacadeRoot());
             DB::commit();
         } catch (\Exception $e) {
             DB::rollBack();
