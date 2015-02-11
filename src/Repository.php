@@ -169,10 +169,10 @@ abstract class Repository {
     /**
      * Attempt a DB operation - utilising a transaction
      * 
-     * @param  Closure  $callback
+     * @param  callable  $callback
      * @return mixed 
      */
-    public function attempt(\Closure $callback)
+    public function attempt(callable $callback)
     {
         DB::beginTransaction();
 
