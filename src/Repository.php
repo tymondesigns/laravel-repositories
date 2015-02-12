@@ -1,6 +1,6 @@
 <?php
 
-namespace Tymon\Repositories\Eloquent;
+namespace Tymon\Repositories;
 
 use Illuminate\Support\Facades\DB;
 
