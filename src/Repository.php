@@ -3,8 +3,9 @@
 namespace Tymon\Repositories;
 
 use Illuminate\Support\Facades\DB;
+use Tymon\Repositories\Contracts\Repository as RepositoryContract;
 
-abstract class Repository {
+abstract class Repository implements RepositoryContract {
 
     /**
      * The model instance
