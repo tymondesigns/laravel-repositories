@@ -202,7 +202,7 @@ abstract class Repository implements RepositoryContract {
             return call_user_func_array([$this->model, $method], $parameters);
         }
 
-        throw new \BadMethodCallException(sprintf('Method [%s] does not exist.', $method);
+        throw new \BadMethodCallException(sprintf('Method [%s] does not exist.', $method));
     }
 
 }
