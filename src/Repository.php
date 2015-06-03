@@ -25,6 +25,7 @@ abstract class Repository implements RepositoryContract {
      * Set the array of items to eager load
      *
      * @param  array  $with
+     * 
      * @return self
      */
     public function load(array $with)
@@ -46,6 +47,7 @@ abstract class Repository implements RepositoryContract {
      * Retrieve all entities
      *
      * @param  array  $columns
+     * 
      * @return Illuminate\Database\Eloquent\Collection
      */
     public function all(array $columns = ['*'])
@@ -58,6 +60,7 @@ abstract class Repository implements RepositoryContract {
      *
      * @param  int    $id
      * @param  array  $columns
+     * 
      * @return Illuminate\Database\Eloquent\Model
      */
     public function find($id, array $columns = ['*'])
@@ -69,6 +72,7 @@ abstract class Repository implements RepositoryContract {
      * Create a new entity
      *
      * @param  array  $data
+     * 
      * @return \Illuminate\Database\Eloquent\Model
      */
     public function create(array $data)
@@ -83,6 +87,7 @@ abstract class Repository implements RepositoryContract {
      *
      * @param  int    $id
      * @param  array  $data
+     * 
      * @return \Illuminate\Database\Eloquent\Model
      */
     public function update($id, array $data)
@@ -96,6 +101,7 @@ abstract class Repository implements RepositoryContract {
      * Delete an existing entity
      *
      * @param  int  $id
+     * 
      * @return boolean
      */
     public function delete($id)
@@ -108,12 +114,16 @@ abstract class Repository implements RepositoryContract {
     /**
     * Get Results by Page
     *
-    * @param  int    $limit
-    * @param  array  $columns
+    * @param  int      $limit
+    * @param  boolean  $simple
+    * @param  array    $columns
+    * 
     * @return \Illuminate\Pagination\Paginator
     */
-    public function getByPage($limit = 10, array $columns = ['*'])
+    public function getByPage($limit = 10, $simple = false, array $columns = ['*'])
     {
+        if ($simple) return $this->make()->simplePaginate($limit, $columns);
+        
         return $this->make()->paginate($limit, $columns);
     }
 
@@ -123,6 +133,7 @@ abstract class Repository implements RepositoryContract {
      * @param  string  $key
      * @param  mixed   $value
      * @param  array   $columns
+     * 
      * @return Illuminate\Database\Query\Builder
      */
     public function getManyBy($key, $value, array $columns = ['*'])
@@ -136,6 +147,7 @@ abstract class Repository implements RepositoryContract {
      * @param  string  $key
      * @param  mixed   $value
      * @param  array   $columns
+     * 
      * @return Illuminate\Database\Query\Builder
      */
     public function getFirstBy($key, $value, array $columns = ['*'])
@@ -149,6 +161,7 @@ abstract class Repository implements RepositoryContract {
      * @param  string  $key
      * @param  array   $array
      * @param  array   $columns
+     * 
      * @return Illuminate\Database\Query\Builders
      */
     public function getWhereIn($key, array $array, array $columns = ['*'])
@@ -160,6 +173,7 @@ abstract class Repository implements RepositoryContract {
      * Get a new instance
      *
      * @param  array  $attributes
+     * 
      * @return \Illuminate\Database\Eloquent\Model
      */
     public function instance(array $attributes = [])
@@ -171,6 +185,7 @@ abstract class Repository implements RepositoryContract {
      * Attempt a DB operation - utilising a transaction
      * 
      * @param  callable  $callback
+     * 
      * @return mixed 
      */
     public function attempt(callable $callback)
@@ -193,7 +208,9 @@ abstract class Repository implements RepositoryContract {
      *
      * @param  string  $method
      * @param  array   $parameters
+     * 
      * @return mixed
+     * 
      * @throws \BadMethodCallException
      */
     public function __call($method, $parameters)
