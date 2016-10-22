@@ -77,7 +77,7 @@ abstract class Repository
      */
     public function create(array $data)
     {
-        return $this->attempt(function() {
+        return $this->attempt(function() use ($data) {
             return $this->model->create($data);
         });
     }
@@ -92,7 +92,7 @@ abstract class Repository
      */
     public function update($id, array $data)
     {
-        return $this->attempt(function() {
+        return $this->attempt(function() use ($id, $data) {
             return $this->find($id)->fill($data)->save();
         });
     }
@@ -106,7 +106,7 @@ abstract class Repository
      */
     public function delete($id)
     {
-        return $this->attempt(function() {
+        return $this->attempt(function() use ($id) {
             return $this->find($id)->delete();
         });
     }
